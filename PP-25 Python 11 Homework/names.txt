@@ -1,0 +1,3 @@
+- levan gafro
+- & C:/Users/levan/AppData/Local/Programs/Python/Python313/python.exe "c:/Users/levan/OneDrive/Desktop/PP-25 Homework/PP-25 Python 11 Homework/Lesson_11.py" & C:/Users/levan/AppData/Local/Programs/Python/Python313/python.exe "c:/Users/levan/OneDrive/Desktop/PP-25 Homework/PP-25 Python 11 Homework/Lesson_11.py"
+- & C:/Users/levan/AppData/Local/Programs/Python/Python313/python.exe "c:/Users/levan/OneDrive/Desktop/PP-25 Homework/PP-25 Python 11 Homework/Lesson_11.py" & C:/Users/levan/AppData/Local/Programs/Python/Python313/python.exe "c:/Users/levan/OneDrive/Desktop/PP-25 Homework/PP-25 Python 11 Homework/Lesson_11.py"
