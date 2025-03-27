@@ -24,7 +24,7 @@ class Football_Team_Managmenet_System:
     def __init__(self, team_name, coach):
         self.team_name = team_name
         self.coach = coach
-        players = []
+        self.players = []
 #1)
     def add_players(self, player_name, player_position, number, age, nationality):
         player = {
