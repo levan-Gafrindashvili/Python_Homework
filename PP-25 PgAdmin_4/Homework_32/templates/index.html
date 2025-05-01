@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie List</title>
+    <style>
+        .green { color: green; }
+        .orange { color: orange; }
+        .gray { color: gray; }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #aaa;
+            padding: 10px;
+            text-align: center;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Total Movies: {{ total }}</h2>
+    <h2>Average Duration: {{ average_duration | round(2) }} minutes</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Year</th>
+                <th>Rating</th>
+                <th>Genre</th>
+                <th>Duration (min)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movie in movies %}
+                {% if movie.rating >= 9 %}
+                    {% set color = "green" %}
+                {% elif movie.rating >= 8.5 %}
+                    {% set color = "orange" %}
+                {% else %}
+                    {% set color = "gray" %}
+                {% endif %}
+                <tr class="{{ color }}">
+                    <td class="{{ color }}">{{ movie.title }}</td>
+                    <td class="{{ color }}">{{ movie.year }}</td>
+                    <td class="{{ color }}">{{ movie.rating }}</td>
+                    <td class="{{ color }}">{{ movie.genre }}</td>
+                    <td class="{{ color }}">{{ movie.duration }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
