@@ -1,5 +1,5 @@
 """
-URL configuration for Homework_33 project.
+URL configuration for Homework_django project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
