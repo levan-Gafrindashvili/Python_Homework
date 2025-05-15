@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" href="{% static 'store/styles.css' %}" />
+      <title>{{ product.name }} - Details</title>
+    </head>
+    <body>
+      <h1>{{ product.name }}</h1>
+      <ul>
+        <li>Price: ${{ product.price }}</li>
+        <li>Quantity: {{ product.quantity }}</li>
+        <li>Total Value: ${{ product.total_value }}</li>
+        <li>Category: {{ product.category.name }}</li>
+      </ul>
+
+      <a href="{% url 'category_detail' product.category.id %}"
+        >← Back to Category</a
+      >
+    </body>
+  </html>

@@ -1,0 +1,21 @@
+<h1>Products in "{{ category.name }}"</h1>
+
+<ul>
+  {% for product in products %}
+  <li>
+    <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+    - Price: ${{ product.price }} - Quantity: {{ product.quantity }} - Total:
+    ${{ product.total_value }}
+  </li>
+  {% endfor %}
+</ul>
+
+<h2>Statistics</h2>
+<ul>
+  <li>Most expensive: {{ max_product.name }} - ${{ max_product.price }}</li>
+  <li>Cheapest: {{ min_product.name }} - ${{ min_product.price }}</li>
+  <li>Average price: ${{ avg_price|floatformat:2 }}</li>
+  <li>Total category value: ${{ total_value }}</li>
+</ul>
+
+<a href="{% url 'category_list' %}">← Back to Categories</a>
