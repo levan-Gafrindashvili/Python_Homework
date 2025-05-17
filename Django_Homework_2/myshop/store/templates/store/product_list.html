@@ -1,0 +1,20 @@
+{% extends 'store/base.html' %}
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ category.name }}</h1>
+<ul>
+  {% for product in products %}
+    <li>
+      <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a> -
+      sum: {{ product.total_value }}
+    </li>
+  {% endfor %}
+</ul>
+
+<h3>statistics:</h3>
+<p>most expensive: {{ most_expensive.name }} - {{ most_expensive.price }}</p>
+<p>cheapest: {{ cheapest.name }} - {{ cheapest.price }}</p>
+<p>avgerage price: {{ avg_price|floatformat:2 }}</p>
+<p>total value: {{ total_value }}</p>
+{% endblock %}

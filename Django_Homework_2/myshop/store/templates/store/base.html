@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ka">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}store{% endblock %}</title>
+  </head>
+  <body>
+    <nav>
+      <a href="{% url 'category_list' %}">main</a> /
+      <a href="{% url 'add_product' %}">add product</a> /
+      <a href="{% url 'add_category' %}">add category</a> /
+    </nav>
+    <hr />
+    {% block content %}{% endblock %}
+  </body>
+</html>

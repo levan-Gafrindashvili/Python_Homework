@@ -1,8 +1,10 @@
 # store/views.py
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product
 from django.db.models import Avg, Max, Min, Sum
+from .forms import ProductForm, CategoryForm
+
 
 
 def category_list(request):
@@ -32,3 +34,28 @@ def category_detail(request, category_id):
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     return render(request, 'store/product_detail.html', {'product': product})
+
+def product_list(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    products = category.products.all()
+    return render(request, 'store/product_list.html', {'category': category, 'products': products})
+
+def add_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('category_list')
+    else:
+        form = ProductForm()
+    return render(request, 'store/add_product.html', {'form': form})
+
+def add_category(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('category_list')
+    else:
+        form = CategoryForm()
+    return render(request, 'store/add_category.html', {'form': form})

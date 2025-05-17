@@ -1,10 +1,15 @@
-<h1>Categories</h1>
-<ul>
-  {% for category in categories %}
-    <li>
-      <a href="{% url 'category_detail' category.id %}">
-        {{ category.name }} ({{ category.products.count }})
-      </a>
-    </li>
-  {% endfor %}
-</ul>
+{% extends 'store/base.html' %}
+{% block title %}categories{% endblock %}
+
+{% block content %}
+  <h1>categories</h1>
+  <ul>
+    {% for category in categories %}
+      <li>
+        <a href="{% url 'product_list' category.id %}">
+          {{ category.name }} ({{ category.products.count }})
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
