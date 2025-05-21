@@ -1,0 +1,12 @@
+{% extends 'store/base.html' %}
+{% block title %}Update Product{% endblock %}
+
+{% block content %}
+<h1>Update Product</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update</button>
+</form>
+<a href="{% url 'product_detail' pk=object.pk %}">Cancel</a>
+{% endblock %}

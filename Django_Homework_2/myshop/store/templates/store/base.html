@@ -1,8 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ka">
   <head>
     <meta charset="UTF-8" />
     <title>{% block title %}store{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/base_style.css' %}" />
   </head>
   <body>
     <nav>
@@ -11,6 +14,18 @@
       <a href="{% url 'add_category' %}">add category</a> /
     </nav>
     <hr />
-    {% block content %}{% endblock %}
+
+    {% block content %}
+    <h1 style="margin: 50px;">categories</h1>
+    <ul>
+      {% for category in categories %}
+      <li>
+        <a href="{% url 'product_list' category.id %}">
+          {{ category.name }} ({{ category.products.count }})
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endblock %}
   </body>
 </html>

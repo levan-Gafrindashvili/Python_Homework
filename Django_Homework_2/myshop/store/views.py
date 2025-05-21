@@ -2,60 +2,100 @@
 
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product
-from django.db.models import Avg, Max, Min, Sum
+from django.db.models import Avg
+from .forms import ProductForm, CategoryForm
+
+from django.shortcuts import get_object_or_404, redirect
+from django.views import View
+from django.views.generic import (
+    TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+)
+from django.urls import reverse_lazy, reverse
+from django.db.models import Avg
+from .models import Category, Product
 from .forms import ProductForm, CategoryForm
 
 
 
-def category_list(request):
-    categories = Category.objects.all()
-    return render(request, 'store/category_list.html', {'categories': categories})
-
-def category_detail(request, category_id):
-    category = get_object_or_404(Category, id=category_id)
-    products = category.products.all()
-
-    avg_price = products.aggregate(avg=Avg('price'))['avg']
-    max_product = products.order_by('-price').first()
-    min_product = products.order_by('price').first()
-    total_value = sum(p.price * p.quantity for p in products)
-
-    context = {
-        'category': category,
-        'avg_price': avg_price,
-        'total_value': total_value,
-        'products': products,
-        'max_product': max_product,
-        'min_product': min_product,
-    }
-    return render(request, 'store/category_detail.html', context)
+class BaseView(TemplateView):
+    template_name = 'store/base.html'
 
 
-def product_detail(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    return render(request, 'store/product_detail.html', {'product': product})
 
-def product_list(request, category_id):
-    category = get_object_or_404(Category, id=category_id)
-    products = category.products.all()
-    return render(request, 'store/product_list.html', {'category': category, 'products': products})
+class CategoryListView(ListView):
+    model = Category
+    template_name = 'store/category_list.html'
+    context_object_name = 'categories'
 
-def add_product(request):
-    if request.method == 'POST':
-        form = ProductForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('category_list')
-    else:
-        form = ProductForm()
-    return render(request, 'store/add_product.html', {'form': form})
 
-def add_category(request):
-    if request.method == 'POST':
-        form = CategoryForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('category_list')
-    else:
-        form = CategoryForm()
-    return render(request, 'store/add_category.html', {'form': form})
+class CategoryDetailView(View):
+    template_name = 'store/category_detail.html'
+
+    def get(self, request, category_id):
+        category = get_object_or_404(Category, id=category_id)
+        products = category.products.all()
+
+        avg_price = products.aggregate(avg=Avg('price'))['avg']
+        max_product = products.order_by('-price').first()
+        min_product = products.order_by('price').first()
+        total_value = sum(p.price * p.quantity for p in products)
+
+        context = {
+            'category': category,
+            'avg_price': avg_price,
+            'total_value': total_value,
+            'products': products,
+            'max_product': max_product,
+            'min_product': min_product,
+        }
+        return render(request, self.template_name, context)
+
+
+class ProductListView(ListView):
+    model = Product
+    template_name = 'store/product_list.html'
+    context_object_name = 'products'
+    
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, id=self.kwargs['category_id'])
+        return self.category.products.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = self.category
+        return context
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'store/product_detail.html'
+    context_object_name = 'product'
+
+
+class AddProductView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'store/add_product.html'
+    success_url = reverse_lazy('category_list')
+
+
+class UpdateProductView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'store/update_product.html'
+
+    def get_success_url(self):
+        return reverse('product_detail', kwargs={'pk': self.object.pk})
+
+
+class DeleteProductView(DeleteView):
+    model = Product
+    template_name = 'store/delete_product.html'
+    success_url = reverse_lazy('category_list')
+
+
+class AddCategoryView(CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'store/add_category.html'
+    success_url = reverse_lazy('category_list')

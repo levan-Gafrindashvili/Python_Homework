@@ -1,12 +1,20 @@
 # store/urls.py
 
 from django.urls import path
-from . import views
+from .views import (
+    BaseView, CategoryListView, CategoryDetailView,
+    ProductListView, ProductDetailView, AddProductView,
+    UpdateProductView, DeleteProductView, AddCategoryView,
+)
 
 urlpatterns = [
-    path('', views.category_list, name='category_list'),
-    path('add_category/', views.add_category, name='add_category'),
-    path('category/<int:category_id>/', views.product_list, name='product_list'),
-    path('product/<int:product_id>/', views.product_detail, name='product_detail'),
-    path('add/', views.add_product, name='add_product'),
+    path('', BaseView.as_view(), name='base'),
+    path('categories/', CategoryListView.as_view(), name='category_list'),
+    path('category/<int:category_id>/', CategoryDetailView.as_view(), name='category_detail'),
+    path('category/<int:category_id>/products/', ProductListView.as_view(), name='product_list'),
+    path('product/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
+    path('product/add/', AddProductView.as_view(), name='add_product'),
+    path('product/<int:pk>/edit/', UpdateProductView.as_view(), name='update_product'),
+    path('product/<int:pk>/delete/', DeleteProductView.as_view(), name='delete_product'),
+    path('category/add/', AddCategoryView.as_view(), name='add_category'),
 ]
