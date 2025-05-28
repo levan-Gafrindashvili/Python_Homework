@@ -1,17 +1,33 @@
-{% extends 'store/base.html' %} 
-{% block title %}categories{% endblock %} 
+{% extends 'store/base.html' %}
 
-{%block content %}
+{% block title %}Products{% endblock %}
+
+{% block content %}
 <div style="margin: 50px;">
-  <h1>Categories:</h1>
-  <ul>
-    {% for category in categories %}
-    <li>
-      <a href="{% url 'product_list' category.id %}">
-        {{ category.name }} ({{ category.products.count }})
-      </a>
+  <h1>Products in {{ category.name }}</h1>
+  <ul style="list-style: none; padding: 0;">
+    {% for product in page_obj %}
+    <li style="margin-bottom: 20px;">
+      {% if product.image %}
+      <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100" />
+      {% endif %}
+      <strong>{{ product.name }}</strong>
     </li>
     {% endfor %}
   </ul>
+
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page=1">&laquo; First</a>
+      <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">Next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+    {% endif %}
+  </div>
 </div>
 {% endblock %}

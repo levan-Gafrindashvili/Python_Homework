@@ -4,21 +4,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Product
 from django.db.models import Avg
 from .forms import ProductForm, CategoryForm, CustomUserCreationForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.views import LoginView
-
-
-
-
-from django.shortcuts import get_object_or_404, redirect
+from django.core.paginator import Paginator
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import (
     TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 )
-from django.urls import reverse_lazy, reverse
-from django.db.models import Avg
-from .models import Category, Product
-from .forms import ProductForm, CategoryForm
 
 
 
@@ -60,7 +53,8 @@ class ProductListView(ListView):
     model = Product
     template_name = 'store/product_list.html'
     context_object_name = 'products'
-    
+    paginate_by = 6 
+
     def get_queryset(self):
         self.category = get_object_or_404(Category, id=self.kwargs['category_id'])
         return self.category.products.all()
@@ -123,3 +117,8 @@ def register_view(request):
 
 class CustomLoginView(LoginView):
     template_name = 'store/login.html'
+
+def logout_view(request):
+    logout(request)
+    return redirect('store/login.html')  
+

@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from .views import (
     BaseView, CategoryListView, CategoryDetailView,
     ProductListView, ProductDetailView, AddProductView,
-    UpdateProductView, DeleteProductView, AddCategoryView, CustomLoginView, register_view
+    UpdateProductView, DeleteProductView, AddCategoryView, CustomLoginView, register_view, logout_view
 )
 
 urlpatterns = [
@@ -22,5 +22,6 @@ urlpatterns = [
     path('register/', register_view, name='register'),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(next_page=reverse_lazy('login')), name='logout'),
+    path('logout/', logout_view, name='logout'),
 ]
 

@@ -20,6 +20,10 @@ class Product(models.Model):
 
     def total_value(self):
         return self.price * self.quantity
+    
+    @property
+    def total_value(self):
+        return self.price * self.quantity
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
@@ -28,3 +32,5 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+image = models.ImageField(upload_to='product_images/', null=True, blank=True)
